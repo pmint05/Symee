@@ -191,13 +191,13 @@ let getSymeeMsg = (msg) => {
 	})
 		.then((res) => {
 			res.json().then((data) => {
-				$("#typingMsg").parentNode.removeChild($("#typingMsg"));
 				addSymeeMsg(data.success);
 			});
 		})
 		.catch((err) => {
 			addSymeeMsg("Oops, something went wrong!");
 		});
+	$("#typingMsg").parentNode.removeChild($("#typingMsg"));
 };
 let addSymeeMsg = (msgText) => {
 	let symeeMsg = `<li class="msg symeeMsg"> <div class="msgAvatar"><img src="./assets/images/simava2.png" alt="avatar" /></div><div class="msgBody"><div class="msgContent">${msgText}</div><div class="msgTime"><span>${getTime()}</span></div></div></li>`;
