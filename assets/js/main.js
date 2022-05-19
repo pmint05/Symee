@@ -21,7 +21,8 @@ const modeSwitch = $(".toggle-switch"),
 	confirmBtnYes = $("#confirmBtnYes"),
 	confirmBtnNo = $("#confirmBtnNo"),
 	overlay = $("#overlay"),
-	msgList = $("#msgList");
+	msgList = $("#msgList"),
+	fullscreenBtn = $("#fullscreenBtn");
 const SIMSIMI_API_URL = "https://api-sv2.simsimi.net/v2/?text=",
 	language = "&lc=vn";
 let time = new Date();
@@ -42,7 +43,7 @@ let Symee = JSON.parse(localStorage.getItem("Symee")) || {
 	},
 	lastDate: "",
 };
-
+Symee.msgs[startDate] == undefined ? (Symee.msgs[startDate] = []) : 0;
 let id = Symee.msgs[startDate]?.length || 0;
 let showSavedMsgs = () => {
 	msgs = Symee.msgs;
@@ -181,23 +182,29 @@ form.onsubmit = (e) => {
 	noti.classList.add("hide");
 };
 let getSymeeMsg = (msg) => {
-	fetch(SIMSIMI_API_URL + msg + language, {
+	var xhr = new XMLHttpRequest();
+
+	fetch(`localhost:8080/${SIMSIMI_API_URL + msg + language}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
 			"Access-Control-Allow-Origin": "*",
 			credentials: "include",
+			mode: "cors",
+			origin: "*",
+			"X-Requested-With": "XMLHttpRequest",
 		},
 	})
 		.then((res) => {
 			res.json().then((data) => {
 				addSymeeMsg(data.success);
+				$("#typingMsg").parentNode.removeChild($("#typingMsg"));
 			});
 		})
 		.catch((err) => {
 			addSymeeMsg("Oops, something went wrong!");
+			$("#typingMsg").parentNode.removeChild($("#typingMsg"));
 		});
-	$("#typingMsg").parentNode.removeChild($("#typingMsg"));
 };
 let addSymeeMsg = (msgText) => {
 	let symeeMsg = `<li class="msg symeeMsg"> <div class="msgAvatar"><img src="./assets/images/simava2.png" alt="avatar" /></div><div class="msgBody"><div class="msgContent">${msgText}</div><div class="msgTime"><span>${getTime()}</span></div></div></li>`;
@@ -310,3 +317,40 @@ let getTime = () => {
 		(time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes())
 	);
 };
+fullscreenBtn.onclick = () => {
+	toggleFullScreen(document.body);
+};
+function toggleFullScreen(elem) {
+	if (
+		(document.fullScreenElement !== undefined &&
+			document.fullScreenElement === null) ||
+		(document.msFullscreenElement !== undefined &&
+			document.msFullscreenElement === null) ||
+		(document.mozFullScreen !== undefined && !document.mozFullScreen) ||
+		(document.webkitIsFullScreen !== undefined &&
+			!document.webkitIsFullScreen)
+	) {
+		if (elem.requestFullScreen) {
+			elem.requestFullScreen();
+		} else if (elem.mozRequestFullScreen) {
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullScreen) {
+			elem.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+		} else if (elem.msRequestFullscreen) {
+			elem.msRequestFullscreen();
+		}
+		fullscreenBtn.innerHTML =
+			'<ion-icon name="contract-outline"></ion-icon>';
+	} else {
+		if (document.cancelFullScreen) {
+			document.cancelFullScreen();
+		} else if (document.mozCancelFullScreen) {
+			document.mozCancelFullScreen();
+		} else if (document.webkitCancelFullScreen) {
+			document.webkitCancelFullScreen();
+		} else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
+		}
+		fullscreenBtn.innerHTML = '<ion-icon name="expand-outline"></ion-icon>';
+	}
+}

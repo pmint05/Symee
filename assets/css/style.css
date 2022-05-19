@@ -162,6 +162,7 @@ body.rainbow {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+    background: var(--body-color);
 }
 #loadingWrapper {
 	position: fixed;
@@ -882,6 +883,9 @@ body.dark #body #noti::before {
 		min-height: calc(100% - 120px);
 		max-height: calc(100% - 120px);
 	}
+    #header #menu li#shareBtn {
+        display: none;
+    }
 }
 @media only screen and (max-width: 375px) {
 	#modeSwitch .moon-sun {
@@ -899,13 +903,16 @@ body.dark #body #noti::before {
 	#header #menu li {
 		padding: 10px 0;
 	}
-	#header #menu li[title="Share on Facebook"] {
-		/* display: none; */
-	}
 	#info #nameField #name {
 		width: 90%;
 	}
 	#header #menuBtn {
 		margin-right: 0;
 	}
+}
+*:fullscreen
+*:-ms-fullscreen,
+*:-webkit-full-screen,
+*:-moz-full-screen {
+   overflow: auto !important;
 }
