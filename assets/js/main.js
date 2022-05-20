@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		);
 	}
-	fetch(`${SIMSIMI_API_URL + msg + language}`, {
+	fetch(`${SIMSIMI_API_URL + "hi" + language}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
