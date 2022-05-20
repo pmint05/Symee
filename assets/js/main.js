@@ -22,7 +22,10 @@ const modeSwitch = $(".toggle-switch"),
 	confirmBtnNo = $("#confirmBtnNo"),
 	overlay = $("#overlay"),
 	msgList = $("#msgList"),
-	fullscreenBtn = $("#fullscreenBtn");
+	fullscreenBtn = $("#fullscreenBtn"),
+	changeImageBtn = $("#changeImageBtn"),
+	changeImageInput = $("#changeImageInput"),
+	body = $("#body");
 const SIMSIMI_API_URL = "https://api-sv2.simsimi.net/v2/?text=",
 	language = "&lc=vn";
 let time = new Date();
@@ -42,7 +45,10 @@ let Symee = JSON.parse(localStorage.getItem("Symee")) || {
 		[startDate]: [],
 	},
 	lastDate: "",
+	avatar: "",
 };
+let symeeAvt = Symee.avatar;
+symeeAvt != "" ? ($("#avaImg").src = symeeAvt) : 0;
 Symee.msgs[startDate] == undefined ? (Symee.msgs[startDate] = []) : 0;
 let id = Symee.msgs[startDate]?.length || 0;
 let showSavedMsgs = () => {
@@ -57,9 +63,15 @@ let showSavedMsgs = () => {
 			return a.id - b.id;
 		});
 		msgs[date].forEach((msg) => {
-			let msgItem = `<li class="msg ${msg.sender}Msg">${
+			let msgItem = `<li class="msg ${msg.sender}Msg" data-id="${
+				msg.id
+			}">${
 				msg.sender == "symee"
-					? '<div class="msgAvatar"><img src="./assets/images/simava2.png" alt="avatar" />'
+					? `<div class="msgAvatar"><img src="${
+							symeeAvt == ""
+								? "./assets/images/simava2.png"
+								: symeeAvt
+					  }" alt="avatar" />`
 					: ""
 			}</div><div class="msgBody"><div class="msgContent">${
 				msg.msgText
@@ -70,7 +82,7 @@ let showSavedMsgs = () => {
 		});
 	}
 	msgList.lastChild.nodeName != "#text"
-		? msgList.lastChild.scrollIntoView()
+		? msgList.lastChild.scrollIntoView({ behavior: "smooth" })
 		: 0;
 };
 showSavedMsgs();
@@ -114,17 +126,50 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		);
 	}
+	fetch(`${SIMSIMI_API_URL + msg + language}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"Access-Control-Allow-Origin": "*",
+			credentials: "include",
+			mode: "no-cors",
+			origin: "*",
+			"X-Requested-With": "XMLHttpRequest",
+		},
+	})
+		.then((res) => {
+			res.json().then((data) => {
+				if (!data.success) {
+					$("#avatar").classList.add("error");
+					$("#nameField p").innerText = "Offline";
+				}
+			});
+		})
+		.catch((err) => {
+			$("#avatar").classList.add("error");
+			$("#nameField p").innerText = "Offline";
+		});
 });
 msg.onfocus = () => {
+	menu.classList.remove("active");
+	msgList.lastChild.scrollIntoView({ behavior: "smooth" });
+};
+body.onclick = () => {
 	menu.classList.remove("active");
 };
 changeNameBtn.onclick = () => {
 	menu.classList.remove("active");
 	customName.removeAttribute("disabled");
 	customName.select();
+	window.onkeyup = (e) => {
+		if (e.keyCode == 13 && customName === document.activeElement) {
+			customName.blur();
+		}
+	};
 	customName.onblur = () => {
 		let name = customName.value.trim();
 		if (name) {
+			document.title = name + " has sent you a message";
 			Symee.name = name;
 			localStorage.setItem("Symee", JSON.stringify(Symee));
 		} else {
@@ -159,7 +204,11 @@ form.onsubmit = (e) => {
 	localStorage.setItem("Symee", JSON.stringify(Symee));
 	let typingMsg = `<li class="msg botMsg" id="typingMsg">
                         <div class="msgAvatar">
-                            <img src="./assets/images/simava2.png" alt="avatar" />
+                            <img src="${
+								symeeAvt == ""
+									? "./assets/images/simava2.png"
+									: symeeAvt
+							}" alt="avatar" />
                         </div>
                         <div class="msgBody">
                             <div class="msgContent">
@@ -177,14 +226,14 @@ form.onsubmit = (e) => {
                         </div>
                     </li>`;
 	msgList.insertAdjacentHTML("beforeend", typingMsg);
-	msgList.lastChild.scrollIntoView();
+	msgList.lastChild.scrollIntoView({ behavior: "smooth" });
 	getSymeeMsg(msgText);
 	noti.classList.add("hide");
 };
 let getSymeeMsg = (msg) => {
 	var xhr = new XMLHttpRequest();
 
-	fetch(`localhost:8080/${SIMSIMI_API_URL + msg + language}`, {
+	fetch(`${SIMSIMI_API_URL + msg + language}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -202,14 +251,18 @@ let getSymeeMsg = (msg) => {
 			});
 		})
 		.catch((err) => {
+			$("#avatar").classList.add("error");
+			$("#nameField p").innerText = "Offline";
 			addSymeeMsg("Oops, something went wrong!");
 			$("#typingMsg").parentNode.removeChild($("#typingMsg"));
 		});
 };
 let addSymeeMsg = (msgText) => {
-	let symeeMsg = `<li class="msg symeeMsg"> <div class="msgAvatar"><img src="./assets/images/simava2.png" alt="avatar" /></div><div class="msgBody"><div class="msgContent">${msgText}</div><div class="msgTime"><span>${getTime()}</span></div></div></li>`;
+	let symeeMsg = `<li class="msg symeeMsg"><div class="msgAvatar"><img src="${
+		symeeAvt == "" ? "./assets/images/simava2.png" : symeeAvt
+	}" alt="avatar" /></div><div class="msgBody"><div class="msgContent">${msgText}</div><div class="msgTime"><span>${getTime()}</span></div></div></li>`;
 	msgList.insertAdjacentHTML("beforeend", symeeMsg);
-	msgList.lastChild.scrollIntoView();
+	msgList.lastChild.scrollIntoView({ behavior: "smooth" });
 	Symee.msgs[startDate].push({
 		msgText,
 		time: getTime(),
@@ -230,6 +283,46 @@ msg.onkeyup = (evt) => {
 	} else {
 		msg.dataset.state = "invalid";
 	}
+};
+changeImageBtn.onclick = () => {
+	changeImageInput.click();
+};
+changeImageInput.onchange = () => {
+	let file = changeImageInput.files[0];
+	let reader = new FileReader();
+	reader.onload = (e) => {
+		let img = new Image();
+		img.src = e.target.result;
+		img.onload = () => {
+			let canvas = document.createElement("canvas");
+			let ctx = canvas.getContext("2d");
+			const MAX_WIDTH = 200;
+			let width = img.width,
+				height = img.height;
+			if (width > height) {
+				if (width > MAX_WIDTH) {
+					height *= MAX_WIDTH / width;
+					width = MAX_WIDTH;
+				}
+			} else {
+				if (height > MAX_WIDTH) {
+					width *= MAX_WIDTH / height;
+					height = MAX_WIDTH;
+				}
+			}
+			canvas.width = width;
+			canvas.height = height;
+			ctx.drawImage(img, 0, 0, width, height);
+			let dataURL = canvas.toDataURL("image/png");
+			$("#avaImg").src = dataURL;
+			$$(".msgAvatar img").forEach((img) => {
+				img.src = dataURL;
+			});
+			Symee.avatar = dataURL;
+			localStorage.setItem("Symee", JSON.stringify(Symee));
+		};
+	};
+	reader.readAsDataURL(file);
 };
 infoBtn.onclick = () => {
 	infoWrapper.classList.toggle("show");
@@ -254,11 +347,7 @@ backBtn.onclick = () => {
 };
 
 modeSwitch.onclick = () => {
-	if (mode === "light") {
-		mode = "dark";
-	} else {
-		mode = "light";
-	}
+	mode = mode === "dark" ? "light" : "dark";
 	document.body.classList.toggle("dark");
 	Symee.mode = mode;
 	localStorage.setItem("Symee", JSON.stringify(Symee));
@@ -319,6 +408,7 @@ let getTime = () => {
 };
 fullscreenBtn.onclick = () => {
 	toggleFullScreen(document.body);
+	menu.classList.remove("active");
 };
 function toggleFullScreen(elem) {
 	if (
@@ -354,3 +444,31 @@ function toggleFullScreen(elem) {
 		fullscreenBtn.innerHTML = '<ion-icon name="expand-outline"></ion-icon>';
 	}
 }
+document.addEventListener("fullscreenchange", function () {
+	checkFullScreen();
+});
+document.addEventListener("mozfullscreenchange", function () {
+	checkFullScreen();
+});
+document.addEventListener("webkitfullscreenchange", function () {
+	checkFullScreen();
+});
+document.addEventListener("msfullscreenchange", function () {
+	checkFullScreen();
+});
+const checkFullScreen = () => {
+	if (
+		(document.fullScreenElement !== undefined &&
+			document.fullScreenElement === null) ||
+		(document.msFullscreenElement !== undefined &&
+			document.msFullscreenElement === null) ||
+		(document.mozFullScreen !== undefined && !document.mozFullScreen) ||
+		(document.webkitIsFullScreen !== undefined &&
+			!document.webkitIsFullScreen)
+	) {
+		fullscreenBtn.innerHTML = '<ion-icon name="expand-outline"></ion-icon>';
+	} else {
+		fullscreenBtn.innerHTML =
+			'<ion-icon name="contract-outline"></ion-icon>';
+	}
+};

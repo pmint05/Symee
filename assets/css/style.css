@@ -71,11 +71,11 @@ ion-icon {
 	--toggle-color: #d0d0d0;
 	--text-color: #707070;
 
-	--tran-01: all 0.1s ease-in-out;
-	--tran-02: all 0.2s ease-in-out;
-	--tran-03: all 0.3s ease-in-out;
-	--tran-04: all 0.3s ease-in-out;
-	--tran-05: all 0.3s ease-in-out;
+	--tran-01: 0.1s ease-in-out;
+	--tran-02: 0.2s ease-in-out;
+	--tran-03: 0.3s ease-in-out;
+	--tran-04: 0.3s ease-in-out;
+	--tran-05: 0.3s ease-in-out;
 }
 ::selection {
 	color: var(--secondary-color);
@@ -88,9 +88,11 @@ ion-icon {
 ::-webkit-scrollbar-thumb {
 	border-radius: 25px;
 	background: var(--primary-color-light);
+    transition: background var(--tran-02);
 }
 ::-webkit-scrollbar-track {
 	background: var(--secondary-color);
+    transition: background var(--tran-02);
 }
 body.dark {
 	--body-color: #18191a;
@@ -162,7 +164,13 @@ body.rainbow {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-    background: var(--body-color);
+    /* background: var(--body-color); */
+    transition: var(--tran-02);
+    background-color: var(--body-color);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 8 8'%3E%3Cg fill='%23000000' fill-opacity='0.025'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E");
+}
+body.dark #app{ 
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 8 8'%3E%3Cg fill='%23000000' fill-opacity='0.08'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E");
 }
 #loadingWrapper {
 	position: fixed;
@@ -225,17 +233,16 @@ body.rainbow {
 	right: 0;
 	font-size: 2.5rem;
 	padding: 10px;
-	background: var(--secondary-color);
-	border-radius: 50%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
 	transition: var(--tran-02);
-	opacity: 0.3;
+	opacity: 0.2;
 }
 #closeInfoBtn:hover {
-	opacity: 0.88;
+	opacity: 0.77;
+    color: var(--primary-color);
 }
 #infoWrapper.show {
 	opacity: 1;
@@ -249,8 +256,41 @@ body.rainbow {
 	white-space: nowrap;
 }
 #infoWrapper #infoContent {
-	text-align: justify;
+	text-align: left;
 }
+#infoWrapper a {
+    font-weight: 500;
+}
+
+#infoWrapper #infoContent header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+#infoWrapper #infoContent header img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: .1;
+    user-select: none;
+    pointer-events: none;
+}
+body.dark #infoWrapper #infoContent header img {
+    opacity: .02;
+}
+#infoWrapper #infoContent #features { 
+    margin-left: 20px;
+}
+
+#infoWrapper #infoContent #disclaimer {
+    text-align: justify;
+}
+
 #infoWrapper #infoSocial {
 	display: flex;
 	justify-content: center;
@@ -273,10 +313,15 @@ body.rainbow {
 }
 #infoWrapper #infoCredit {
 	font-size: 0.7rem;
-	opacity: 0.5;
+	opacity: 0.7;
 	pointer-events: none;
 	user-select: none;
+    text-align: center;
 }
+#infoWrapper #infoCredit a {
+    pointer-events: all;
+}
+
 #themeSettings {
 	position: fixed;
 	bottom: 10px;
@@ -401,6 +446,26 @@ body.dark #header {
 	height: 40px;
 	width: 40px;
 }
+#header #info #avatar #changeImageBtn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: var(--text-color);
+    opacity: 0;
+    transition: var(--tran-02);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--body-color);
+    font-size: 1.25rem;
+}
+#header #info #avatar:hover #changeImageBtn {
+    opacity: 0.88;
+}
 #header #info #avatar #avaImg {
 	height: 100%;
 	width: 100%;
@@ -420,6 +485,10 @@ body.dark #header {
 	border-radius: 50%;
 	border: 2px solid var(--secondary-color);
 	transition: var(--tran-02);
+    pointer-events: none;
+}
+#avatar.error::after {
+    background: #f44336;
 }
 #info #nameField {
 	margin-left: 10px;
@@ -688,7 +757,6 @@ body.dark #body #noti::before {
 }
 .msg.userMsg {
 	justify-content: flex-end;
-	margin: 10px 0;
 }
 .msg.userMsg .msgBody .msgContent {
 	color: var(--text-color);
@@ -767,6 +835,7 @@ body.dark #body #noti::before {
 	width: 100%;
 	font-size: 0.8rem;
 	font-style: italic;
+    margin-top: 10px;
 }
 
 #confirmWrapper {

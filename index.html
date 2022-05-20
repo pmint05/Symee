@@ -1,149 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:url" content="https://pmint05.github.io/Symee" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Symee" />
+        <meta property="og:description" content="A Funny AI Chatbot. Made with ❤️ by @pmint05 aka Rhinzo" />
+        <meta property="og:image" content="./assets/images/thumbnail.jpg" />
 
-    <meta property="og:url" content="https://www.your-domain.com/your-page.html" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Your Website Title" />
-    <meta property="og:description" content="Your description" />
-    <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
+        <title>Symee has sent you a message</title>
+        
+        <link rel="shortcut icon" type="image/png" href="./assets/images/favicon.png" />
+        <link rel="stylesheet" href="assets/css/style.css" />
+        <link rel="image_src" type="image/jpeg" href="./assets//images/thumbnail.jpg">
+        <script src="assets/js/main.js" defer></script>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        </head>
 
-    <title>Symee 🐰</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <script src="assets/js/main.js" defer></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <meta name="theme-color" content="#000" />
-</head>
-
-<body>
-    <div id="app">
-        <div id="loadingWrapper">
-            Loading
-            <div class="msgContent">
-                <div class="ticontainer loading">
-                    <div class="tiblock">
-                        <div class="tidot"></div>
-                        <div class="tidot"></div>
-                        <div class="tidot"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="overlay"></div>
-        <div id="confirmWrapper">
-            <h2 id="confirmHeader">Hello</h2>
-            <ion-icon name="warning-outline" id="confirmIcon"></ion-icon>
-            <p id="confirmMessage">Are you saying hello?</p>
-            <div id="confirmBtns">
-                <button id="confirmBtnYes">Yes</button>
-                <button id="confirmBtnNo">No</button>
-            </div>
-        </div>
-        <div id="mainContainer">
-            <div id="infoWrapper">
-                <span id="closeInfoBtn" title="Close">
-                    <ion-icon name="close-outline"></ion-icon>
-                </span>
-                <div id="infoContent">
-                    <h2>Symee 🥹</h2>
-                    <p>— Một chú bot vui tính, hòa đồng, thân thiện và cũng rất bựa, bên cạnh đó là con bot này THIỂU
-                        NĂNG vcl 🤪</p>
-                    <p>— Chức năng chính:</p>
-                    <ul>
-                        <li>● Trả lời tin nhắn của bạn</li>
-                        <li>● etc...</li>
-                    </ul>
-                    <p>— Thiết kế và phát triển bởi: <a href="https://fb.com/pmint05" target="_blank">Pmint05 aka
-                            Rhinzo</a>
-                    </p>
-                    <p>— API Provider: <a href="https://github.com/meowcop" target="_blank"
-                            rel="noopener noreferrer">hoanggiap</a> (meowcop)
-                    </p>
-                </div>
-                <div id="infoSocial">
-                    <p>Connect with me</p>
-                    <span id="infoSocialLinks">
-                        <a href="http://fb.com/pmint05/" target="_blank" rel="noopener noreferrer">
-                            <ion-icon name="logo-facebook"></ion-icon>
-                        </a>
-                        <a href="http://github.com/pmint05/" target="_blank" rel="noopener noreferrer">
-                            <ion-icon name="logo-github"></ion-icon>
-                        </a>
-                        <a href="https://bit.ly/rhinzoplaylist" target="_blank" rel="noopener noreferrer">
-                            <ion-icon name="logo-youtube"></ion-icon>
-                        </a>
-                    </span>
-                </div>
-                <div id="infoCredit">
-                    © <span id="year">2022</span> • Symee
-                </div>
-            </div>
-            <div id="header">
-                <div id="info">
-                    <span id="avatar">
-                        <img src="./assets/images/simmyava200x200.png" alt="avatar" id="avaImg" />
-                    </span>
-                    <span id="nameField">
-                        <input id="name" type="text" autocomplete="off" spellcheck="false" value="Symee" disabled />
-                        <p>Đang hoạt động</p>
-                    </span>
-                </div>
-                <div id="menuBtn">
-                    <ion-icon name="ellipsis-horizontal"></ion-icon>
-                </div>
-                <ul id="menu">
-                    <li class="menuItem" title="Home">
-                        <a href="http://pmint05.github.io" target="_blank" rel="noopener noreferrer">
-                            <ion-icon name="home-outline"></ion-icon>
-                        </a>
-                    </li>
-                    <li class="menuItem" id="changeNameBtn" title="Edit Name">
-                        <ion-icon name="create-outline"></ion-icon>
-                    </li>
-                    <li class="menuItem" id="deleteMsgBtn" title="Delete Messages">
-                        <ion-icon name="trash-outline"></ion-icon>
-                    </li>
-                    <li class="menuItem" id="fullscreenBtn">
-                        <ion-icon name="expand-outline"></ion-icon>
-                    </li>
-                    <li class="menuItem" title="Share on Facebook" id="shareBtn">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u="
-                            onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');return false;"
-                            target="_blank" title="Share on Facebook">
-                            <ion-icon name="share-social-outline"></ion-icon>
-                        </a>
-                    </li>
-                    <li class="menuItem" title="Web's info" id="infoBtn">
-                        <ion-icon name="information-circle-outline"></ion-icon>
-                    </li>
-                    <div id="themeSettings">
-                        <div id="randomTheme" title="Generate random theme"></div>
-                        <div id="modeSwitch">
-                            <div class="moon-sun">
-                                <ion-icon name="moon" class="moon"></ion-icon>
-                                <ion-icon name="sunny" class="sun"></ion-icon>
-                            </div>
-                            <div class="toggle-switch" title="Turn on/off dark mode">
-                                <div class="switch"></div>
-                            </div>
+    <body>
+        <div id="app">
+            <div id="loadingWrapper">
+                Loading
+                <div class="msgContent">
+                    <div class="ticontainer loading">
+                        <div class="tiblock">
+                            <div class="tidot"></div>
+                            <div class="tidot"></div>
+                            <div class="tidot"></div>
                         </div>
                     </div>
-                    <li class="menuItem" id="backBtn" title="Close">
-                        <ion-icon name="close-outline"></ion-icon>
-                    </li>
-                </ul>
+                </div>
             </div>
-            <div id="body">
-                <span id="noti">
-                    👋 Hãy nói "Xin chào" để bắt đầu cuộc trò chuyện
-                </span>
-                <ul id="msgList">
-                    <!-- <li class="msg botMsg">
+            <div id="overlay"></div>
+            <div id="confirmWrapper">
+                <h2 id="confirmHeader">Hello</h2>
+                <ion-icon name="warning-outline" id="confirmIcon"></ion-icon>
+                <p id="confirmMessage">Are you saying hello?</p>
+                <div id="confirmBtns">
+                    <button id="confirmBtnYes">Yes</button>
+                    <button id="confirmBtnNo">No</button>
+                </div>
+            </div>
+            <div id="mainContainer">
+                <div id="infoWrapper">
+                    <span id="closeInfoBtn" title="Close">
+                        <ion-icon name="close-outline"></ion-icon>
+                    </span>
+                    <div id="infoContent">
+                        <header>
+                            <img src="assets/images/simava.jpg" alt="avatar">
+                            <h2>• Symee •</h2>
+                        </header>
+                        <p>
+                            — Một chú bot vui tính, hòa đồng, thân thiện và cũng
+                            rất bựa, thêm vào đó con bot này THIỂU NĂNG vch
+                            🤪
+                        </p>
+                        <p>— Chức năng chính: </p>
+                        <ul id="features">
+                            <li>● Trả lời tin nhắn của bạn </li>
+                            <li>● etc...</li>
+                        </ul>
+                        <p>
+                            — API provider:
+                            <a href="https://github.com/meowcop" target="_blank" rel="noopener noreferrer">
+                                @meowcop
+                            </a>
+                        </p>
+                        <p id="disclaimer"><b>⚠️ DISCLAIMER: </b>Mọi từ ngữ, nội dung con bot gửi đến bạn đều do cộng đồng người dùng "dạy",
+                            không thuộc quyền
+                            kiểm soát của mình, do đó có thể nó
+                            sẽ trả lời bạn bằng những câu từ không phù hợp.</p>
+                        <center>Thanks for using my app!<br> Have a nice day 😉</center>
+                        </div>
+                        <div id="infoSocial">
+                            <p>👉 Connect with me 👈</p>
+                            <span id="infoSocialLinks">
+                                <a href="http://fb.com/pmint05/" target="_blank" rel="noopener noreferrer">
+                                    <ion-icon name="logo-facebook"></ion-icon>
+                                </a>
+                                <a href="http://github.com/pmint05/" target="_blank" rel="noopener noreferrer">
+                                    <ion-icon name="logo-github"></ion-icon>
+                                </a>
+                                <a href="https://bit.ly/rhinzoplaylist" target="_blank" rel="noopener noreferrer">
+                                    <ion-icon name="logo-youtube"></ion-icon>
+                                </a>
+                            </span>
+                            </div>
+                            <div id="infoCredit">
+                            <p>Made with ❤️ by
+                                <a href="http://fb.com/pmint05" target="_blank" rel="noopener noreferrer">
+                                    @Rhinzo
+                                </a>
+                            </p>
+                            <p>
+                                © <span id="year">2022</span> • Symee
+                            </p>
+                        </div>
+                        </div>
+                        <div id="header">
+                            <div id="info">
+                                <span id="avatar">
+                                    <button id="changeImageBtn">
+                                        <ion-icon name="cloud-upload-outline"></ion-icon>
+                                    </button>
+                                    <input type="file" name="avatarImg" id="changeImageInput" hidden accept=".jpeg, .jpg, .png, .gif">
+                                    <img src="./assets/images/simmyava200x200.png" alt="avatar" id="avaImg" />
+                                    </span>
+                                    <span id="nameField">
+                                        <input id="name" type="text" autocomplete="off" spellcheck="false" value="Symee" disabled />
+                                        <p>Đang hoạt động</p>
+                                    </span>
+                                    </div>
+                            <div id="menuBtn" title="Menu">
+                                <ion-icon name="ellipsis-horizontal"></ion-icon>
+                            </div>
+                            <ul id="menu">
+                                <li class="menuItem" title="Home">
+                                    <a href="http://pmint05.github.io" target="_blank" rel="noopener noreferrer">
+                                        <ion-icon name="home-outline"></ion-icon>
+                                    </a>
+                                </li>
+                                <li class="menuItem" id="changeNameBtn" title="Edit Name">
+                                    <ion-icon name="create-outline"></ion-icon>
+                                </li>
+                                <li class="menuItem" id="deleteMsgBtn" title="Delete Messages">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </li>
+                                <li class="menuItem" id="fullscreenBtn" title="Toggle Fullscreen">
+                                    <ion-icon name="expand-outline"></ion-icon>
+                                </li>
+                                <li class="menuItem" title="Share on Facebook" id="shareBtn">
+                                    <a href="javascript:void(0)" target="_blank" rel="noopener noreferrer"
+                                        onclick="javascript:window.open('http://facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0'); return false;">
+                                        <ion-icon name="share-social-outline"></ion-icon>
+                                    </a>
+                                    </li>
+                                    <li class="menuItem" title="Web's info" id="infoBtn">
+                                        <ion-icon name="information-circle-outline"></ion-icon>
+                                    </li>
+                                    <div id="themeSettings">
+                                        <div id="randomTheme" title="Generate random theme"></div>
+                                        <div id="modeSwitch">
+                                            <div class="moon-sun">
+                                                <ion-icon name="moon" class="moon"></ion-icon>
+                                                <ion-icon name="sunny" class="sun"></ion-icon>
+                                            </div>
+                                            <div class="toggle-switch" title="Turn on/off dark mode">
+                                                <div class="switch"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <li class="menuItem" id="backBtn" title="Close">
+                                        <ion-icon name="close-outline"></ion-icon>
+                                    </li>
+                                    </ul>
+                                    </div>
+                                    <div id="body">
+                                        <span id="noti">
+                                            👋 Hãy nói "Xin chào" để bắt đầu cuộc trò chuyện
+                                        </span>
+                                        <ul id="msgList">
+                                            <!-- <li class="msg botMsg">
                         <div class="msgAvatar">
                             <img src="./assets/images/simava2.png" alt="avatar" />
                         </div>
@@ -170,19 +192,18 @@
                             </div>
                         </div>
                     </li> -->
-                </ul>
-            </div>
-            <div id="footer">
-                <form action="/" method="post" id="inputField">
-                    <input type="text" placeholder="Aa..." id="msg" autocomplete="off" required maxlength="1000" />
-                    <button id="sendBtn" type="submit">
-                        Send
-                        <ion-icon name="send"></ion-icon>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
-
+                    </ul>
+                    </div>
+                    <div id="footer">
+                        <form action="/" method="post" id="inputField">
+                            <input type="text" placeholder="Aa..." id="msg" autocomplete="off" required maxlength="1000" />
+                            <button id="sendBtn" type="submit">
+                                Send
+                                <ion-icon name="send"></ion-icon>
+                            </button>
+                        </form>
+                    </div>
+                    </div>
+                    </div>
+                    </body>
 </html>
