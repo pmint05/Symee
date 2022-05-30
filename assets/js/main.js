@@ -120,8 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
 							'👋 Hãy nói "Xin chào" để bắt đầu cuộc trò chuyện';
 						setTimeout(() => {
 							noti.innerText = quoteRes;
-						}, 3000);
-					}, 6000);
+						}, 4000);
+					}, 8000);
 				});
 			}
 		);
@@ -315,6 +315,7 @@ changeImageInput.onchange = () => {
 			ctx.drawImage(img, 0, 0, width, height);
 			let dataURL = canvas.toDataURL("image/png");
 			$("#avaImg").src = dataURL;
+			symeeAvt = dataURL;
 			$$(".msgAvatar img").forEach((img) => {
 				img.src = dataURL;
 			});
