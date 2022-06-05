@@ -27,7 +27,8 @@ const modeSwitch = $(".toggle-switch"),
 	changeImageInput = $("#changeImageInput"),
 	body = $("#body");
 const SIMSIMI_API_URL = "https://api-sv2.simsimi.net/v2/?text=",
-	language = "&lc=vn";
+	language = "&lc=vn",
+	API = "https://symee-bridge.glitch.me/api?message=";
 let time = new Date();
 let startDate =
 	time.getDate() +
@@ -126,8 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		);
 	}
-	fetch(`${SIMSIMI_API_URL + "hi" + language}`, {
-		method: "GET",
+	fetch(`${API}hi`, {
+		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 			"Access-Control-Allow-Origin": "*",
@@ -231,20 +232,13 @@ form.onsubmit = (e) => {
 	noti.classList.add("hide");
 };
 let getSymeeMsg = (msg) => {
-	var xhr = new XMLHttpRequest();
-
-	fetch(`${SIMSIMI_API_URL + msg + language}`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
-			credentials: "include",
-			mode: "cors",
-			origin: "*",
-			"X-Requested-With": "XMLHttpRequest",
-		},
+	fetch(`${API}${msg}`, {
+		method: "POST",
 	})
 		.then((res) => {
+			if (res.status !== 200) {
+				throw new Error(res.statusText);
+			}
 			res.json().then((data) => {
 				addSymeeMsg(data.success);
 				$("#typingMsg").parentNode.removeChild($("#typingMsg"));
@@ -256,7 +250,34 @@ let getSymeeMsg = (msg) => {
 			addSymeeMsg("Oops, something went wrong!");
 			$("#typingMsg").parentNode.removeChild($("#typingMsg"));
 		});
-};
+
+	// fetch(`${SIMSIMI_API_URL + msg + language}`, {
+	// 	method: "GET",
+	// 	headers: {
+	// 		"Content-Type": "application/json",
+	// 		"Access-Control-Allow-Origin": "https://api.simsimi.net",
+	// 		credentials: "include",
+	// 		mode: "no-cors",
+	// 		origin: "https://simsimi.net",
+	// 		"X-Requested-With": "XMLHttpRequest",
+	// 	},
+	// })
+	// 	.then((res) => {
+	// 		if (res.status !== 200) {
+	// 			throw new Error(res.statusText);
+	// 		}
+	// 		res.json().then((data) => {
+	// 			addSymeeMsg(data.success);
+	// 			$("#typingMsg").parentNode.removeChild($("#typingMsg"));
+	// 		});
+	// 	})
+	// 	.catch((err) => {
+	// 		$("#avatar").classList.add("error");
+	// 		$("#nameField p").innerText = "Offline";
+	// 		addSymeeMsg("Oops, something went wrong!");
+	// 		$("#typingMsg").parentNode.removeChild($("#typingMsg"));
+	// 	});
+};;
 let addSymeeMsg = (msgText) => {
 	let symeeMsg = `<li class="msg symeeMsg"><div class="msgAvatar"><img src="${
 		symeeAvt == "" ? "./assets/images/simava2.png" : symeeAvt
