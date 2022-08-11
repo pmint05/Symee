@@ -579,7 +579,7 @@ body.dark #header {
 #menu .menuItem ion-icon {
 	font-size: 1.5rem;
 	cursor: pointer;
-	border-radius: 50%;
+	/* border-radius: 50%; */
 	opacity: 0.4;
 	transition: var(--tran-02);
 }
