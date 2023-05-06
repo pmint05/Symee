@@ -700,7 +700,8 @@ body.dark #body #noti::before {
 	display: flex;
 	justify-content: flex-start;
 }
-.msg .msgAvatar {
+.msg .
+{
 	width: 32px;
 	height: 32px;
 	object-fit: cover;
@@ -709,6 +710,7 @@ body.dark #body #noti::before {
 	width: 100%;
 	height: 100%;
 	border-radius: 50%;
+	object-fit: cover;
 }
 .msg .msgBody {
 	max-width: 55%;
